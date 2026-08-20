@@ -2,11 +2,58 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Prueba de presentismo</title>
+  <title>Prueba de GPS</title>
 </head>
 
 <body>
-  <h1>Prueba de presentismo</h1>
-  <p>Si estás viendo esto, la página funciona.</p>
+  <h1>Prueba de GPS</h1>
+
+  <button onclick="obtenerUbicacion()">Verificar ubicación</button>
+
+  <p id="resultado"></p>
+
+  <script>
+    function obtenerUbicacion() {
+
+      const resultado = document.getElementById("resultado");
+
+      resultado.innerHTML = "Obteniendo ubicación...";
+
+      if (!navigator.geolocation) {
+        resultado.innerHTML =
+          "Este teléfono no permite obtener ubicación.";
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          const precision = position.coords.accuracy;
+
+          resultado.innerHTML =
+            "Latitud: " + lat + "<br>" +
+            "Longitud: " + lon + "<br>" +
+            "Precisión aproximada: " +
+            precision + " metros";
+        },
+
+        function(error) {
+
+          resultado.innerHTML =
+            "No se pudo obtener la ubicación.<br>" +
+            "Código de error: " + error.code;
+        },
+
+        {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 0
+        }
+      );
+    }
+  </script>
+
 </body>
 </html>

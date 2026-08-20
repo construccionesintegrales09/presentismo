@@ -2,49 +2,110 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Prueba de GPS</title>
+  <title>Prueba de distancia</title>
 </head>
 
 <body>
-  <h1>Prueba de GPS</h1>
+  <h1>Prueba de distancia</h1>
 
-  <button onclick="obtenerUbicacion()">Verificar ubicación</button>
+  <button onclick="verificarUbicacion()">Verificar ubicación</button>
 
   <p id="resultado"></p>
 
   <script>
-    function obtenerUbicacion() {
+
+    // Coordenadas de prueba de la "obra"
+    const obraLat = -34.8503344;
+    const obraLon = -58.40488003;
+
+    // Radio permitido: 100 metros
+    const radioPermitido = 100;
+
+
+    function calcularDistancia(lat1, lon1, lat2, lon2) {
+
+      const R = 6371000; // radio de la Tierra en metros
+
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) *
+        Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+      return R * c;
+    }
+
+
+    function verificarUbicacion() {
 
       const resultado = document.getElementById("resultado");
 
       resultado.innerHTML = "Obteniendo ubicación...";
 
       if (!navigator.geolocation) {
+
         resultado.innerHTML =
           "Este teléfono no permite obtener ubicación.";
+
         return;
       }
 
+
       navigator.geolocation.getCurrentPosition(
+
         function(position) {
 
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
           const precision = position.coords.accuracy;
 
-          resultado.innerHTML =
-            "Latitud: " + lat + "<br>" +
-            "Longitud: " + lon + "<br>" +
-            "Precisión aproximada: " +
-            precision + " metros";
+          const distancia = calcularDistancia(
+            lat,
+            lon,
+            obraLat,
+            obraLon
+          );
+
+          let mensaje =
+            "Distancia a la obra: " +
+            Math.round(distancia) +
+            " metros<br><br>";
+
+          mensaje +=
+            "Precisión aproximada del GPS: " +
+            Math.round(precision) +
+            " metros<br><br>";
+
+
+          if (distancia <= radioPermitido) {
+
+            mensaje +=
+              "✅ ESTÁS DENTRO DEL RADIO PERMITIDO";
+
+          } else {
+
+            mensaje +=
+              "❌ ESTÁS FUERA DEL RADIO PERMITIDO";
+          }
+
+
+          resultado.innerHTML = mensaje;
         },
+
 
         function(error) {
 
           resultado.innerHTML =
             "No se pudo obtener la ubicación.<br>" +
-            "Código de error: " + error.code;
+            "Código de error: " +
+            error.code;
         },
+
 
         {
           enableHighAccuracy: true,
@@ -53,6 +114,7 @@
         }
       );
     }
+
   </script>
 
 </body>

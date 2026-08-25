@@ -9,7 +9,8 @@
   <h1>Prueba de distancia</h1>
 
   <button onclick="verificarUbicacion()">Verificar ubicación</button>
-
+<br><br>
+<button onclick="enviarPrueba()">Enviar registro de prueba</button>
   <p id="resultado"></p>
 
   <script>
@@ -114,6 +115,26 @@ const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbww6PYtAw0MHJeF
         }
       );
     }
+    function enviarPrueba() {
+
+  const datos = new URLSearchParams();
+
+  datos.append("fecha", new Date().toLocaleDateString());
+  datos.append("hora", new Date().toLocaleTimeString());
+  datos.append("empleado", "PRUEBA");
+  datos.append("obra", "OBRA PRUEBA");
+  datos.append("actividad", "Pintura");
+  datos.append("latitud", "-34.8503344");
+  datos.append("longitud", "-58.40488003");
+
+  fetch(URL_APPS_SCRIPT, {
+    method: "POST",
+    mode: "no-cors",
+    body: datos
+  });
+
+  alert("Registro enviado");
+}
 
   </script>
 

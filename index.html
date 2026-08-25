@@ -23,11 +23,40 @@ const parametros = new URLSearchParams(window.location.search);
 const obra = parametros.get("obra");
 
 if (obra) {
+
   document.getElementById("obra").innerHTML =
-    "Obra: " + obra;
+    "Cargando obra...";
+
+  fetch(URL_APPS_SCRIPT + "?obra=" + encodeURIComponent(obra))
+    .then(response => response.json())
+    .then(datos => {
+
+      if (!datos) {
+        document.getElementById("obra").innerHTML =
+          "❌ Obra no encontrada";
+        return;
+      }
+
+      document.getElementById("obra").innerHTML =
+        "Obra: " + datos.obra;
+
+      obraLat = datos.latitud;
+      obraLon = datos.longitud;
+      radioPermitido = datos.radio;
+
+    })
+    .catch(error => {
+
+      document.getElementById("obra").innerHTML =
+        "❌ No se pudo consultar la obra";
+
+      console.error(error);
+    });
+
 } else {
+
   document.getElementById("obra").innerHTML =
-    "No se indicó ninguna obra";
+    "⚠️ No se indicó ninguna obra";
 }
     
    let obraLat;

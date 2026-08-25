@@ -6,7 +6,9 @@
 </head>
 
 <body>
-  <h1>Prueba de distancia</h1>
+  <h1>Registro de asistencia</h1>
+
+<h2 id="obra">Detectando obra...</h2>
 
   <button onclick="verificarUbicacion()">Verificar ubicación</button>
 <br><br>
@@ -16,6 +18,18 @@
   <script>
 const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbww6PYtAw0MHJeFHzL_OAN_Uy-dInzRPjIBsucpDT8O47WjI84MUlooBYmLmaLz2kILUw/exec";
     // Coordenadas de prueba de la "obra"
+
+const parametros = new URLSearchParams(window.location.search);
+const obra = parametros.get("obra");
+
+if (obra) {
+  document.getElementById("obra").innerHTML =
+    "Obra: " + obra;
+} else {
+  document.getElementById("obra").innerHTML =
+    "No se indicó ninguna obra";
+}
+    
     const obraLat = -34.8503344;
     const obraLon = -58.40488003;
 

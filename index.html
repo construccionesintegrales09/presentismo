@@ -179,6 +179,33 @@ let radioPermitido;
   alert("Registro enviado");
 }
 
+    window.onload = function () {
+
+  google.accounts.id.initialize({
+    client_id: "306225002515-r0hrppto4pe6i17cfvtepabslclt65dm.apps.googleusercontent.com",
+    callback: manejarLogin
+  });
+
+  google.accounts.id.renderButton(
+    document.getElementById("googleLogin"),
+    {
+      theme: "outline",
+      size: "large",
+      text: "signin_with",
+      shape: "rectangular"
+    }
+  );
+};
+
+
+function manejarLogin(response) {
+
+  console.log("Login de Google recibido");
+  console.log(response.credential);
+
+  document.getElementById("googleLogin").innerHTML =
+    "✅ Google identificado";
+}
   </script>
 
 </body>

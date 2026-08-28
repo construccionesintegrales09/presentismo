@@ -165,11 +165,11 @@ let empleadoNombre = "";
 
   datos.append("fecha", new Date().toLocaleDateString());
   datos.append("hora", new Date().toLocaleTimeString());
-  datos.append("empleado", "PRUEBA");
-  datos.append("obra", "OBRA PRUEBA");
+  datos.append("empleado", empleadoNombre);
+  datos.append("obra", obra);
   datos.append("actividad", "Pintura");
-  datos.append("latitud", "-34.8503344");
-  datos.append("longitud", "-58.40488003");
+  datos.append("latitud", obraLat);
+  datos.append("longitud", obraLon);
 
   fetch(URL_APPS_SCRIPT, {
     method: "POST",

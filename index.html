@@ -200,11 +200,42 @@ let radioPermitido;
 
 function manejarLogin(response) {
 
-  console.log("Login de Google recibido");
-  console.log(response.credential);
+  const datos = JSON.parse(
+    atob(response.credential.split(".")[1])
+  );
+
+  const email = datos.email;
 
   document.getElementById("googleLogin").innerHTML =
-    "✅ Google identificado";
+    "Consultando usuario...";
+
+  fetch(
+    URL_APPS_SCRIPT +
+    "?empleado=" +
+    encodeURIComponent(email)
+  )
+    .then(response => response.json())
+    .then(empleado => {
+
+      if (!empleado || empleado.activo.toString().toUpperCase() !== "SI") {
+
+        document.getElementById("googleLogin").innerHTML =
+          "❌ Usuario no autorizado";
+
+        return;
+      }
+
+      document.getElementById("googleLogin").innerHTML =
+        "✅ Hola, " + empleado.nombre;
+
+    })
+    .catch(error => {
+
+      document.getElementById("googleLogin").innerHTML =
+        "❌ No se pudo verificar el usuario.";
+
+      console.error(error);
+    });
 }
   </script>
 

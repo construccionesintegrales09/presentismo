@@ -208,7 +208,30 @@ let empleadoNombre = "";
   );
 };
 
+function registrarAsistencia() {
 
+  const actividad = document.getElementById("actividad").value;
+
+  if (!empleadoEmail || !empleadoNombre) {
+
+    document.getElementById("resultado").innerHTML =
+      "❌ Primero tenés que acceder con Google.";
+
+    return;
+  }
+
+  if (!actividad) {
+
+    document.getElementById("resultado").innerHTML =
+      "❌ Seleccioná una actividad.";
+
+    return;
+  }
+
+  document.getElementById("resultado").innerHTML =
+    "Obteniendo ubicación...";
+
+}
 function manejarLogin(response) {
 
   const datos = JSON.parse(

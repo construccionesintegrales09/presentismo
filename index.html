@@ -231,6 +231,65 @@ function registrarAsistencia() {
   document.getElementById("resultado").innerHTML =
     "Obteniendo ubicación...";
 
+if (!navigator.geolocation) {
+
+  document.getElementById("resultado").innerHTML =
+    "❌ Este teléfono no permite obtener ubicación.";
+
+  return;
+}
+
+navigator.geolocation.getCurrentPosition(
+
+  function(position) {
+
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    const precision = position.coords.accuracy;
+
+    const distancia = calcularDistancia(
+      lat,
+      lon,
+      obraLat,
+      obraLon
+    );
+
+    if (distancia > radioPermitido) {
+
+      document.getElementById("resultado").innerHTML =
+        "❌ No podés registrar la asistencia.<br><br>" +
+        "Estás a " + Math.round(distancia) +
+        " metros de la obra.<br>" +
+        "El radio permitido es de " +
+        Math.round(radioPermitido) + " metros.";
+
+      return;
+    }
+
+    document.getElementById("resultado").innerHTML =
+      "✅ Ubicación verificada.<br><br>" +
+      "Distancia: " + Math.round(distancia) +
+      " metros.<br>" +
+      "Precisión GPS: " + Math.round(precision) +
+      " metros.";
+
+  },
+
+  function(error) {
+
+    document.getElementById("resultado").innerHTML =
+      "❌ No se pudo obtener la ubicación.<br>" +
+      "Código de error: " + error.code;
+
+  },
+
+  {
+    enableHighAccuracy: true,
+    timeout: 15000,
+    maximumAge: 0
+  }
+);
+
 }
 function manejarLogin(response) {
 

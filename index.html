@@ -248,6 +248,37 @@ function manejarLogin(response) {
       console.error(error);
     });
 }
+
+    function cargarActividades() {
+
+  const selector = document.getElementById("actividad");
+
+  fetch(URL_APPS_SCRIPT + "?actividades=1")
+    .then(response => response.json())
+    .then(actividades => {
+
+      selector.innerHTML =
+        '<option value="">Seleccionar actividad...</option>';
+
+      actividades.forEach(function(actividad) {
+
+        const opcion = document.createElement("option");
+
+        opcion.value = actividad;
+        opcion.textContent = actividad;
+
+        selector.appendChild(opcion);
+      });
+
+    })
+    .catch(error => {
+
+      selector.innerHTML =
+        '<option value="">Error al cargar actividades</option>';
+
+      console.error(error);
+    });
+}
   </script>
 
 </body>

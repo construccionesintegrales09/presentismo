@@ -273,7 +273,12 @@ navigator.geolocation.getCurrentPosition(
     const datos = new URLSearchParams();
 
     datos.append("fecha", ahora.toLocaleDateString("es-AR"));
-    datos.append("hora", ahora.toLocaleTimeString("es-AR"));
+    datos.append("hora", ahora.toLocaleTimeString("es-AR", {
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+  hour12: false
+}));
     datos.append("empleado", empleadoNombre);
     datos.append("obra", obra);
     datos.append("actividad", actividad);

@@ -266,12 +266,31 @@ navigator.geolocation.getCurrentPosition(
       return;
     }
 
+        document.getElementById("resultado").innerHTML =
+      "Enviando registro...";
+
+    const ahora = new Date();
+    const datos = new URLSearchParams();
+
+    datos.append("fecha", ahora.toLocaleDateString("es-AR"));
+    datos.append("hora", ahora.toLocaleTimeString("es-AR"));
+    datos.append("empleado", empleadoNombre);
+    datos.append("obra", obra);
+    datos.append("actividad", actividad);
+    datos.append("latitud", lat);
+    datos.append("longitud", lon);
+
+    fetch(URL_APPS_SCRIPT, {
+      method: "POST",
+      mode: "no-cors",
+      body: datos
+    });
+
     document.getElementById("resultado").innerHTML =
-      "✅ Ubicación verificada.<br><br>" +
-      "Distancia: " + Math.round(distancia) +
-      " metros.<br>" +
-      "Precisión GPS: " + Math.round(precision) +
-      " metros.";
+      "✅ Registro enviado.<br><br>" +
+      "Empleado: " + empleadoNombre + "<br>" +
+      "Actividad: " + actividad + "<br>" +
+      "Distancia: " + Math.round(distancia) + " metros.";
 
   },
 

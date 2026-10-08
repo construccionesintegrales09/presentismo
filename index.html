@@ -193,7 +193,8 @@ let empleadoNombre = "";
 
   google.accounts.id.initialize({
     client_id: "306225002515-r0hrppto4pe6i17cfvtepabslclt65dm.apps.googleusercontent.com",
-    callback: manejarLogin
+    callback: manejarLogin,
+    use_fedcm_for_button: true
   });
 
   google.accounts.id.renderButton(

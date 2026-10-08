@@ -346,6 +346,8 @@ function manejarLogin(response) {
       
       document.getElementById("googleLogin").innerHTML =
         "✅ Hola, " + empleado.nombre;
+      document.getElementById("botonRegistrar").disabled =
+  !document.getElementById("actividad").value;
 
     })
     .catch(error => {

@@ -388,10 +388,10 @@ function manejarLogin(response) {
     });
 }
 
-    document.getElementById("actividad").addEventListener("change", function() {
+   document.getElementById("actividad").addEventListener("change", function() {
 
   document.getElementById("botonRegistrar").disabled =
-    !this.value;
+    !this.value || !empleadoEmail;
 
 });
   </script>

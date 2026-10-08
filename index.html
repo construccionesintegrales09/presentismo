@@ -387,6 +387,13 @@ function manejarLogin(response) {
       console.error(error);
     });
 }
+
+    document.getElementById("actividad").addEventListener("change", function() {
+
+  document.getElementById("botonRegistrar").disabled =
+    !this.value;
+
+});
   </script>
 
 </body>
